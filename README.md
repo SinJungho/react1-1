@@ -11,10 +11,11 @@
 ### 오늘 배운 내용
 - React란 무엇인가?
 - React의 장점
+- create-react-app (React 프로젝트 생성)
   
 ### React란 무엇인가?
 - 웹 및 앱 유저 인터페이스를 위한 라이브러리이다.
-- SPA를 쉽고 빠르게 만들수 있도록 도와주는 도구이다.
+- SPA를 <b  style = "color: red">쉽고 빠르게</b> 만들수 있도록 도와주는 도구이다.
   - SPA : Single Page Application
 
 ### React의 장점
@@ -22,8 +23,24 @@
   - 즉, VDOM은 비동기식 방법으로 렌더링한다.
 ![VDOM과 DOM의 차이](./3week/image.png)
 - <b>컴포넌트 기반</b> 구조로 이뤄져 있다.
-- 
-
+  
+### create-react-app (React 프로젝트 생성)
+- 터미널 새로 생성한 후 ```npx create-react-app app-name```를 입력한다.
+- 패키지 경로를 확인 후 진행할 것이냐고 물어볼 경우 y를 입력한다.
+  - 물어보지 않는 경우도 있었으나, 설치가 가능했다.
+- 성공적으로 프로젝트를 생성하면 아래와 같은 트리 구조가 나타나게 된다.
+  ![React 프로젝트 구성](./3week/test-app/react_project.png)
+  - node_modules
+  - public
+    - 앱을 컴파일 하는데 필요하지 않는 요소들을 넣는다.
+    - 정적 파일들을 담는 곳이다.
+      - html, 이미지 파일이 있다.
+  - src
+    - 앱이 컴파일 하는데 사용하는 요소들을 넣는다.
+  - .gitignore
+    - node_modules 폴더와 같이 용량이 크거나, 개발 계획서등 필요하지 않는 파일들을 제외할 때 쓰인다.
+  - package.json
+    - npm 명령어 혹은 앱 이름,버전 등에 쓰인다.
 ---
 
 ## 2주차 (2024-03-13)
