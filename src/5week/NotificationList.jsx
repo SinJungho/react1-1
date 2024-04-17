@@ -18,58 +18,54 @@ const reservedNotifications = [
 
 var timer;
 
-export default function NotificationList(props) {
-  const [state, setState] = useState();
+class NotificationList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      notifications: [],
+    };
+  }
+
+  componentDidMount() {
+    const { notifications } = this.state;
+    timer = setInterval(() => {
+      if (notifications.length < reservedNotifications.length) {
+        const index = notifications.length;
+        notifications.push(reservedNotifications[index]);
+        this.setState({
+          notifications: notifications,
+        });
+      } else {
+        this.setState({
+          notifications: [],
+        });
+        clearInterval(timer);
+      }
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    if (timer) {
+      clearInterval(timer);
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.notifications.map((notification) => {
+          return (
+            <Notification
+              key={notification.id}
+              id={notification.id}
+              message={notification.message}
+            />
+          );
+        })}
+      </div>
+    );
+  }
 }
 
-// class NotificationList extends React.Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       notifications: [],
-//     };
-//   }
-
-//   componentDidMount() {
-//     const { notifications } = this.state;
-//     timer = setInterval(() => {
-//       if (notifications.length < reservedNotifications.length) {
-//         const index = notifications.length;
-//         notifications.push(reservedNotifications[index]);
-//         this.setState({
-//           notifications: notifications,
-//         });
-//       } else {
-//         this.setState({
-//           notifications: [],
-//         });
-//         clearInterval(timer);
-//       }
-//     }, 1000);
-//   }
-
-//   componentWillUnmount() {
-//     if (timer) {
-//       clearInterval(timer);
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <div>
-//         {this.state.notifications.map((notification) => {
-//           return (
-//             <Notification
-//               key={notification.id}
-//               id={notification.id}
-//               message={notification.message}
-//             />
-//           );
-//         })}
-//       </div>
-//     );
-//   }
-// }
-
-// export default NotificationList;
+export default NotificationList;
