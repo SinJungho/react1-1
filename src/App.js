@@ -6,11 +6,12 @@ import Notification from "./5week/Notification";
 import NotificationList from "./5week/NotificationList";
 import Counter from "./7week/Counter";
 import FocusButton from "./7week/FocusButton";
+import Accommodate from "./9week/Accommodate";
 
 function App() {
   return (
     <div>
-      <FocusButton />
+      <Accommodate />
     </div>
   );
 }
