@@ -11,6 +11,71 @@
 - [5주차](#5주차-2024-04-03)
 - [7주차](#7주차-2024-04-17)
 - [9주차](#9주차-2024-05-01)
+- [10주차](#10주차-2024-05-08)
+
+## 10주차 (2024-05-08)
+
+### 오늘 배운 내용
+
+- Arguments 전달하기
+- 조건부 렌더링
+  - 엘리먼트 변수
+  - 인라인 조건
+  - 삼항연산자
+  - 컴포넌트 렌더링 막기
+
+### Arguments 전달하기
+
+- 함수에 전달할 데이터를 Argument라고 한다.
+- 클래스 컴포넌트는 bind 함수를 사용해서 전달한다.
+- 함수형 컴포넌트는 arrow function을 주로 사용한다.
+
+### 엘리먼트 변수
+
+- 렌더링 해야 할 컴포넌트를 변수처럼 다루고 싶을 때 엘리먼트 변수를 사용한다.
+
+- button 변수에 담아 컴포넌트를 대입한 예제 코드
+
+```
+let button;
+if (isLogedIn) {
+  button = <LogoutButton onClick={handleLogoutClick} />;
+} else {
+  button = <LoginButton onClick={handleLoginClick} />;
+}
+```
+
+### 인라인 조건
+
+- 별도로 분리된 곳에 적성하지 않고, 해당 코드가 필요한 곳 안에 직접 집어넣는다.
+- 인라인 조건은 조건문을 코드 안에 집어 넣는 것이다.
+
+```
+true && expression -> expression
+false && expression -> false
+```
+
+### 삼항 연산자
+
+- 삼항연산자를 이용해서 인라인 If - Else를 사용할 수 있다.
+  `<조건문> ? 참일 경우 : 거짓일 경우`
+
+### 컴포넌트 렌더링 막기
+
+- 컴포넌트를 렌더링 하고 싶지 않을 때는 null을 반환한다.
+
+```
+export default function WarningBanner(props) {
+  if (props.warning) {
+    return null;
+  }
+  return <div>경고!!</div>;
+}
+```
+
+- false인 경우에만 null을 반환하기 때문에 컴포넌트를 출력하지 않는다.
+
+---
 
 ## 9주차 (2024-05-01)
 
