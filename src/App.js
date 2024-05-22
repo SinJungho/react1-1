@@ -1,10 +1,13 @@
 import "./App.css";
-import MainPage from "./10week/MainPage";
+import LandingPage from "./12week/LandingPage";
+import NumberList from "./12week/NumberList";
+import AttendanceBook from "./12week/AttendanceBook";
+import NameForm from "./12week/NameForm";
 
 function App() {
   return (
     <div>
-      <MainPage />
+      <NameForm />
     </div>
   );
 }
