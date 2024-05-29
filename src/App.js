@@ -1,13 +1,11 @@
 import "./App.css";
-import LandingPage from "./12week/LandingPage";
-import NumberList from "./12week/NumberList";
-import AttendanceBook from "./12week/AttendanceBook";
-import NameForm from "./12week/NameForm";
+import SignUp from "./13week/SignUp";
+import BoilingVerdict from "./13week/BoilingVerdict";
 
 function App() {
   return (
     <div>
-      <NameForm />
+      <BoilingVerdict celsius="100" />
     </div>
   );
 }

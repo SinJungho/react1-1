@@ -13,6 +13,220 @@
 - [9주차](#9주차-2024-05-01)
 - [10주차](#10주차-2024-05-08)
 - [12주차](#12주차-2024-05-22)
+- [13주차](#13주차-2024-05-29)
+
+## 13주차 (2024-05-29)
+
+### 오늘 배운 내용
+
+- 제어 컴포넌트
+- textarea 태그
+- select 태그
+- 실습 1
+- 실습 2
+- Shared State
+- 하위 컴포넌트에서 State 공유
+
+### 제어 컴포넌트
+
+- 사용자가 입력한 값에 접근하고 제어할 수 있도록 해주는 컴포넌트
+- 리액트의 통제를 받는 입력 폼 엘리먼트를 의미함
+
+```
+function NameForm(props){
+  const [value, setValue] = useState('');
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  }
+  const handleSubmit = (event) => {
+    alert('입력한 이름 : ' + value);
+    event.preventDefault();
+  }
+  return(
+    <form>
+      <label>이름 :
+        <input type="text" value={value} onChange={handleChange} />
+      </label>
+      <button type="submit">제출</button>
+    </form>
+  )
+}
+```
+
+- `input` 태그의 `value={value}`
+  - 리액트 컴포넌트의 `state`에서 값을 가져다 줌
+- `onChange={handleChange}`
+  - `handleChange` 함수에서 `setValue()` 함수를 사용해 새롭게 변경된 값을 `value`라는 이름으로 `state`에 저장
+- `event.target`
+  - 현재 발생한 이벤트 타겟을 의미함
+- `event.target.value`
+  - 타겟의 value 속성 값을 의미함
+
+### textarea 태그
+
+- `<textarea>` 태그는 여러 줄에 걸쳐서 나올 정도로 긴 텍스트를 입력 받기 위한 HTML 태그
+
+```
+function RequestForm(props){
+  const [value, setValue] = useState("요청사항을 입력하세요.");
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  }
+  const handleSubmit = (event) => {
+    alert("입력한 요청사항: " + value);
+    event.preventDefault();
+  }
+  return(
+    <form onSubmit={handleSubmit}>
+      <label>
+        요청 사항 :
+        <textarea value={value} onChange={handleChange} />
+      </label>
+      <button type="submit">제출</button>
+    </form>
+  )
+}
+```
+
+### select 태그
+
+- `<select>` 태그는 드롭 다운 목록을 보여주기 위한 태그이다.
+
+```
+function FruitSelect(){
+  const [value, setValue] = useState('grape');
+  const handleChange = (event) => {
+    setValue(event.targe.value);
+  }
+
+  const handleSubmit = (event) => {
+    alert("선택한 과일 : " + value);
+    event.preventDefault();
+  }
+
+  return(
+    <form onSubmit={handleSubmit}>
+      <label>
+        과일을 선택하세요 :
+        <select value={value} onChange={handleChange}>
+          <option value="apple">사과</option>
+          <option value="banana">바나나</option>
+          <option value="grape">포도</option>
+          <option value="watermelon">수박</option>
+        </select>
+      </label>
+      <button type="submit">제출</button>
+    </form>
+  )
+}
+```
+
+- `handleChange()`
+  - `setValue()` 함수를 사용해 값을 업데이트한다.
+- 값을 변경, 업데이트 할 때
+  - `value`의 속성을 이용해 값을 변경함
+  - `setValue()` 함수를 사용해 값을 업데이트함
+
+### 실습 1
+
+```
+import { useState } from "react";
+
+export default function SignUp(props){
+  const [name, setName] = useState("");
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+  }
+
+  const handleSubmit = (event) => {
+    alert(`이름 : ${name}`);
+    event.preventDefault();
+  }
+
+  return(
+    <form>
+      <label>이름 :
+        <input type="text" value={name} onChange={handleChangeName} />
+      </label>
+    </form>
+  )
+}
+```
+
+### 실습 2
+
+```
+import { useState } from "react";
+
+export default function SignUp() {
+  const [name, setName] = useState();
+  const [gender, setGender] = useState();
+  const [test, setTest] = useState();
+
+  const handleChangeName = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleChangeGender = (e) => {
+    setGender(e.target.value);
+  };
+
+  const handleChangeTest = (e) => {
+    setTest(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    alert(`이름 : ${name} 성별 : ${gender} 입력내용 : ${test}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>이름 : </label>
+      <input
+        type="text"
+        placeholder="이름을 입력하세요"
+        value={name}
+        onChange={handleChangeName}
+      />
+      <br />
+      <label>성별 :</label>
+      <select value={gender} onChange={handleChangeGender}>
+        <option value="남자">남자</option>
+        <option value="여자">여자</option>
+      </select>
+      <br />
+      <textarea
+        placeholder="텍스트를 입력하세요."
+        value={test}
+        onChange={handleChangeTest}
+      ></textarea>
+      <button type="submit">클릭</button>
+    </form>
+  );
+}
+
+```
+
+### Shared State
+
+- 공유된 state를 뜻함
+- 어떤 컴포넌트의 state에 있는 데이터를 여러 개의 하위 컴포넌트에서 공통적으로 사용하는 경우
+
+### 하위 컴포넌트에서 State 공유하기
+
+```
+export default function BoilingVerdict(props) {
+  if (props.celsius >= 100) {
+    return <p>물이 끓습니다.</p>;
+  }
+  return <p>물이 끓지 않습니다.</p>;
+}
+```
+
+- state에 있는 온도 값은 BoilingVerdict 컴포넌트에 celsius 이름의 props로 전달됨
+
+---
 
 ## 12주차 (2024-05-22)
 
