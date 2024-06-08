@@ -14,6 +14,175 @@
 - [10주차](#10주차-2024-05-08)
 - [12주차](#12주차-2024-05-22)
 - [13주차](#13주차-2024-05-29)
+- [14주차](#14주차-2024-06-05)
+
+## 14주차 (2024-06-05)
+
+### 오늘 배운 내용
+
+- Shared State
+- 합성
+
+### Shared State
+
+- 공유된 state를 말한다.
+
+  - 어떤 컴포넌트의 state에 있는 데이터를 여러 개의 하위 컴포넌트에서 공통적으로 사용되는 경우
+
+- Shared State 예제
+
+```react
+import { useState } from 'react';
+
+function Panel({ title, children }) {
+  const [isActive, setIsActive] = useState(false);
+  return (
+    <section className="panel">
+      <h3>{title}</h3>
+      {isActive ? (
+        <p>{children}</p>
+      ) : (
+        <button onClick={() => setIsActive(true)}>
+          Show
+        </button>
+      )}
+    </section>
+  );
+}
+
+export default function Accordion() {
+  return (
+    <>
+      <h2>Almaty, Kazakhstan</h2>
+      <Panel title="About">
+        With a population of about 2 million, Almaty is Kazakhstan's largest city. From 1929 to 1997, it was its capital city.
+      </Panel>
+      <Panel title="Etymology">
+        The name comes from <span lang="kk-KZ">алма</span>, the Kazakh word for "apple" and is often translated as "full of apples". In fact, the region surrounding Almaty is thought to be the ancestral home of the apple, and the wild <i lang="la">Malus sieversii</i> is considered a likely candidate for the ancestor of the modern domestic apple.
+      </Panel>
+    </>
+  );
+}
+
+```
+
+- 자식 컴포넌트 state를 제거한다.
+  `const [isActive, setIsActive] = useState(false);` 해당 코드 삭제 후,
+  `function Panel({ title, children, isActive }) {` 함수 매개변수에 isActive 추가
+- 하드 코딩된 값을 공통의 부모에게 전달한다.
+  - Accordian
+    - Panel
+    - Panel
+  - 와 같은 구조를 가지고 있다.
+
+```react
+import { useState } from 'react';
+
+export default function Accordion() {
+  return (
+    <>
+      <h2>Almaty, Kazakhstan</h2>
+      <Panel title="About" isActive={true}>
+        With a population of about 2 million, Almaty is Kazakhstan's largest city. From 1929 to 1997, it was its capital city.
+      </Panel>
+      <Panel title="Etymology" isActive={true}>
+        The name comes from <span lang="kk-KZ">алма</span>, the Kazakh word for "apple" and is often translated as "full of apples". In fact, the region surrounding Almaty is thought to be the ancestral home of the apple, and the wild <i lang="la">Malus sieversii</i> is considered a likely candidate for the ancestor of the modern domestic apple.
+      </Panel>
+    </>
+  );
+}
+
+function Panel({ title, children, isActive }) {
+  return (
+    <section className="panel">
+      <h3>{title}</h3>
+      {isActive ? (
+        <p>{children}</p>
+      ) : (
+        <button onClick={() => setIsActive(true)}>
+          Show
+        </button>
+      )}
+    </section>
+  );
+}
+
+```
+
+- 공통의 부모에 state를 추가하고 이벤트 핸들러와 함께 전달한다.
+  - 한 번에 하나의 패널만 활성화 해야 하기 때문
+  - 같은 부모 컴포넌트인 `Accordian`컴포넌트에 어떤 패널이 활성화가 된 건지 추적
+  - `const [activeIndex, setActiveIndex] = useState(0);`
+- 상태 끌어올리기가 적용된 모습
+
+```react
+import { useState } from 'react';
+
+
+export default function Accordion() {
+const [activeIndex, setActiveIndex] = useState(0);
+return (
+<>
+
+<h2>Almaty, Kazakhstan</h2>
+<Panel
+title="About"
+isActive={activeIndex === 0}
+onShow={() => setActiveIndex(0)} >
+With a population of about 2 million, Almaty is Kazakhstan's largest city. From 1929 to 1997, it was its capital city.
+</Panel>
+<Panel
+title="Etymology"
+isActive={activeIndex === 1}
+onShow={() => setActiveIndex(1)} >
+The name comes from <span lang="kk-KZ">алма</span>, the Kazakh word for "apple" and is often translated as "full of apples". In fact, the region surrounding Almaty is thought to be the ancestral home of the apple, and the wild <i lang="la">Malus sieversii</i> is considered a likely candidate for the ancestor of the modern domestic apple.
+</Panel>
+</>
+);
+}
+
+function Panel({
+title,
+children,
+isActive,
+onShow
+}) {
+return (
+
+<section className="panel">
+<h3>{title}</h3>
+{isActive ? (
+<p>{children}</p>
+) : (
+<button onClick={onShow}>
+Show
+</button>
+)}
+</section>
+);
+}
+```
+
+### 합성
+
+- 특정 컴포넌트가 하위 컴포넌트를 포함하는 형태의 합성 방법
+- children prop을 사용해 자식 엘리먼트를 출력에 그대로 전달
+- 컴포넌트의 props에 기본적으로 들어있는 children 속성을 사용
+
+```react
+function FancyBorder(props){
+return(
+  <div className={"FancyBorder FancyBorder-" + props.color}>
+    {props.children}
+  </div>
+)
+}
+```
+
+- react에서는 props.children을 통해 컴포넌트를 하나로 모아 제공함
+  - 여러 개 children 집합이 필요한 경우 별도로 props를 정의해 원하는 컴포넌트에 삽입
+
+---
 
 ## 13주차 (2024-05-29)
 
@@ -33,24 +202,27 @@
 - 리액트의 통제를 받는 입력 폼 엘리먼트를 의미함
 
 ```
+
 function NameForm(props){
-  const [value, setValue] = useState('');
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  }
-  const handleSubmit = (event) => {
-    alert('입력한 이름 : ' + value);
-    event.preventDefault();
-  }
-  return(
-    <form>
-      <label>이름 :
-        <input type="text" value={value} onChange={handleChange} />
-      </label>
-      <button type="submit">제출</button>
-    </form>
-  )
+const [value, setValue] = useState('');
+const handleChange = (event) => {
+setValue(event.target.value);
 }
+const handleSubmit = (event) => {
+alert('입력한 이름 : ' + value);
+event.preventDefault();
+}
+return(
+
+<form>
+<label>이름 :
+<input type="text" value={value} onChange={handleChange} />
+</label>
+<button type="submit">제출</button>
+</form>
+)
+}
+
 ```
 
 - `input` 태그의 `value={value}`
@@ -67,25 +239,28 @@ function NameForm(props){
 - `<textarea>` 태그는 여러 줄에 걸쳐서 나올 정도로 긴 텍스트를 입력 받기 위한 HTML 태그
 
 ```
+
 function RequestForm(props){
-  const [value, setValue] = useState("요청사항을 입력하세요.");
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  }
-  const handleSubmit = (event) => {
-    alert("입력한 요청사항: " + value);
-    event.preventDefault();
-  }
-  return(
-    <form onSubmit={handleSubmit}>
-      <label>
-        요청 사항 :
-        <textarea value={value} onChange={handleChange} />
-      </label>
-      <button type="submit">제출</button>
-    </form>
-  )
+const [value, setValue] = useState("요청사항을 입력하세요.");
+const handleChange = (event) => {
+setValue(event.target.value);
 }
+const handleSubmit = (event) => {
+alert("입력한 요청사항: " + value);
+event.preventDefault();
+}
+return(
+
+<form onSubmit={handleSubmit}>
+<label>
+요청 사항 :
+<textarea value={value} onChange={handleChange} />
+</label>
+<button type="submit">제출</button>
+</form>
+)
+}
+
 ```
 
 ### select 태그
@@ -93,32 +268,35 @@ function RequestForm(props){
 - `<select>` 태그는 드롭 다운 목록을 보여주기 위한 태그이다.
 
 ```
+
 function FruitSelect(){
-  const [value, setValue] = useState('grape');
-  const handleChange = (event) => {
-    setValue(event.targe.value);
-  }
-
-  const handleSubmit = (event) => {
-    alert("선택한 과일 : " + value);
-    event.preventDefault();
-  }
-
-  return(
-    <form onSubmit={handleSubmit}>
-      <label>
-        과일을 선택하세요 :
-        <select value={value} onChange={handleChange}>
-          <option value="apple">사과</option>
-          <option value="banana">바나나</option>
-          <option value="grape">포도</option>
-          <option value="watermelon">수박</option>
-        </select>
-      </label>
-      <button type="submit">제출</button>
-    </form>
-  )
+const [value, setValue] = useState('grape');
+const handleChange = (event) => {
+setValue(event.targe.value);
 }
+
+const handleSubmit = (event) => {
+alert("선택한 과일 : " + value);
+event.preventDefault();
+}
+
+return(
+
+<form onSubmit={handleSubmit}>
+<label>
+과일을 선택하세요 :
+<select value={value} onChange={handleChange}>
+<option value="apple">사과</option>
+<option value="banana">바나나</option>
+<option value="grape">포도</option>
+<option value="watermelon">수박</option>
+</select>
+</label>
+<button type="submit">제출</button>
+</form>
+)
+}
+
 ```
 
 - `handleChange()`
@@ -130,80 +308,85 @@ function FruitSelect(){
 ### 실습 1
 
 ```
+
 import { useState } from "react";
 
 export default function SignUp(props){
-  const [name, setName] = useState("");
+const [name, setName] = useState("");
 
-  const handleChange = (event) => {
-    setName(event.target.value);
-  }
-
-  const handleSubmit = (event) => {
-    alert(`이름 : ${name}`);
-    event.preventDefault();
-  }
-
-  return(
-    <form>
-      <label>이름 :
-        <input type="text" value={name} onChange={handleChangeName} />
-      </label>
-    </form>
-  )
+const handleChange = (event) => {
+setName(event.target.value);
 }
+
+const handleSubmit = (event) => {
+alert(`이름 : ${name}`);
+event.preventDefault();
+}
+
+return(
+
+<form>
+<label>이름 :
+<input type="text" value={name} onChange={handleChangeName} />
+</label>
+</form>
+)
+}
+
 ```
 
 ### 실습 2
 
 ```
+
 import { useState } from "react";
 
 export default function SignUp() {
-  const [name, setName] = useState();
-  const [gender, setGender] = useState();
-  const [test, setTest] = useState();
+const [name, setName] = useState();
+const [gender, setGender] = useState();
+const [test, setTest] = useState();
 
-  const handleChangeName = (e) => {
-    setName(e.target.value);
-  };
+const handleChangeName = (e) => {
+setName(e.target.value);
+};
 
-  const handleChangeGender = (e) => {
-    setGender(e.target.value);
-  };
+const handleChangeGender = (e) => {
+setGender(e.target.value);
+};
 
-  const handleChangeTest = (e) => {
-    setTest(e.target.value);
-  };
+const handleChangeTest = (e) => {
+setTest(e.target.value);
+};
 
-  const handleSubmit = (e) => {
-    alert(`이름 : ${name} 성별 : ${gender} 입력내용 : ${test}`);
-  };
+const handleSubmit = (e) => {
+alert(`이름 : ${name} 성별 : ${gender} 입력내용 : ${test}`);
+};
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <label>이름 : </label>
-      <input
+return (
+
+<form onSubmit={handleSubmit}>
+<label>이름 : </label>
+<input
         type="text"
         placeholder="이름을 입력하세요"
         value={name}
         onChange={handleChangeName}
       />
-      <br />
-      <label>성별 :</label>
-      <select value={gender} onChange={handleChangeGender}>
-        <option value="남자">남자</option>
-        <option value="여자">여자</option>
-      </select>
-      <br />
-      <textarea
+<br />
+<label>성별 :</label>
+<select value={gender} onChange={handleChangeGender}>
+<option value="남자">남자</option>
+<option value="여자">여자</option>
+</select>
+<br />
+<textarea
         placeholder="텍스트를 입력하세요."
         value={test}
         onChange={handleChangeTest}
       ></textarea>
-      <button type="submit">클릭</button>
-    </form>
-  );
+<button type="submit">클릭</button>
+</form>
+);
 }
 
 ```
@@ -216,12 +399,14 @@ export default function SignUp() {
 ### 하위 컴포넌트에서 State 공유하기
 
 ```
+
 export default function BoilingVerdict(props) {
-  if (props.celsius >= 100) {
-    return <p>물이 끓습니다.</p>;
-  }
-  return <p>물이 끓지 않습니다.</p>;
+if (props.celsius >= 100) {
+return <p>물이 끓습니다.</p>;
 }
+return <p>물이 끓지 않습니다.</p>;
+}
+
 ```
 
 - state에 있는 온도 값은 BoilingVerdict 컴포넌트에 celsius 이름의 props로 전달됨

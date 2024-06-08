@@ -1,11 +1,12 @@
 import "./App.css";
-import SignUp from "./13week/SignUp";
-import BoilingVerdict from "./13week/BoilingVerdict";
+import SplitPane from "./14week/SplitPane";
+import Contact from "./14week/Contact";
+import Chat from "./14week/Chat";
 
 function App() {
   return (
     <div>
-      <BoilingVerdict celsius="100" />
+      <SplitPane left={<Contact />} right={<Chat />} />
     </div>
   );
 }
