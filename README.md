@@ -15,13 +15,77 @@
 - [12주차](#12주차-2024-05-22)
 - [13주차](#13주차-2024-05-29)
 - [14주차](#14주차-2024-06-05)
+- [보강 1](#보강-1-2024-06-11)
+
+## 보강 1 (2024-06-11)
+
+### 오늘 배운 내용
+
+- Specialization (특수화, 전문화)
+- Context
+
+### Specialization (특수화, 전문화)
+
+- 객체 지향 언어에서는 상속을 사용해 특수화를 구현
+  - React에서는 상속이라는 개념이 존재하지 않는다.
+    - `children` 같은 상속의 의미를 담은 용어가 있으니, 혼동하지 말기
+  - React는 작은 컴포넌트를 합쳐서 사용한다.
+
+```react
+function Dialog(props){
+  return(
+    <FancyBorder color="blue">
+      <h1 className="Dialog-title">{props.title}</h1>
+      <p className="Dialog-message">{props.messsage}</p>
+    </FancyBorder>
+  );
+}
+
+function WelcomeDialog(props){
+  return(<Dialog
+          title ="어서 오세요"
+          message="우리 사이트에 방문 하신것을 환영합니다."
+        />)
+}
+```
+
+### Context
+
+- 컴포넌트 트리를 통해 곧바로 컴포넌트에 전달하는 새로운 방식.
+  - 어떤 컴포넌트라도 쉽게 데이터를 접근이 가능.
+- `Context`를 사용하면 일일이 props를 전달할 필요 없이 데이터를 필요로 하는 컴포넌트에 곧바로 데이터를 전달
+- 자바의 상속과 React의 `Context` 개념을 헷갈릴 수 있으니 주의.
+- 로그인 여부, 로그인 정보, UI 테마, 현재 선택된 언어등에서 자주 쓰인다.
+- `React.createContext`
+  - 컨텍스트를 생성하기 위한 함수.
+  - 파라미터에는 기본 값을 넣는다.
+- `Context.Provider`
+  - `Provider` 컴포넌트에는 `value`라는 `prop`이 있고, `Provider` 컴포넌트 하위에 있는 컴포넌트에 전달한다.
+  - 모든 하위 컴포넌트들이 해당 컨텍스트의 데이터에 접근 할 수 있다.
+  - 하위 컴포넌트를 `cousumer` 컴포넌트라고 부른다.
+- `Class.contextType`
+  - `Provider` 하위에 있는 클래스 컴포넌트에서 컨텍스트의 데이터에 접근하기 위해 사용
+  - Class 형이기에 자주 사용되지 않으니 참고만 한다.
+- `Context.Consumer`
+  - 함수형 컴포넌트에서 `Context.Cousumer`를 사용해 컨텍스트를 구독할 수 있다
+  - 컴포넌트의 자식으로 함수가 올 수 있는데 => function as a child라고 한다.
+  - 함수로 전달되는 value는 Provider의 value `prop`과 동일하다.
+
+### useState VS useContext
+
+- `useState`
+  - 로컬에 있는 상태 관리
+- `useContext`
+  - 전역적으로 사용할 수 있다.
+
+---
 
 ## 14주차 (2024-06-05)
 
 ### 오늘 배운 내용
 
 - Shared State
-- 합성
+- **합성**
 
 ### Shared State
 
