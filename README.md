@@ -16,6 +16,56 @@
 - [13주차](#13주차-2024-05-29)
 - [14주차](#14주차-2024-06-05)
 - [보강 1](#보강-1-2024-06-11)
+- [보강 2](#보강-2-2024-06-12)
+
+## 보강 2 (2024-06-12)
+
+### 오늘 배운 내용
+
+- CSS
+- styled-components
+
+### CSS
+
+- Cascading (계단식)
+  - 스타일간 충돌을 막기 위해 계딴식으로 스타일을 적용
+- 여러 개의 엘리먼트에 적용될 수 있고, 하나의 엘리먼트에도 여러개의 스타일이 적용될 수 있다.
+- 스타일링을 할 수 있는 방법
+
+  - style 태그를 사용해 css 코드 작성
+  - link 태그를 이용해 css 파일을 import 시키는 방법
+  - inline-style을 사용하는 방법
+
+- 레이아웃과 관련된 속성
+
+  - `display:  none;`
+    - 엘리먼트를 화면에서 숨길 때 사용
+  - `display:  block;`
+    - 블록 단위로 엘리멘트를 배치할 때 사용
+  - `display:  inline;`
+    - 엘리먼트를 라인 안에 배치할 때 사용
+  - `display:  flex;`
+    - 플렉스 컨테이너를 이용해 배치한다.
+
+- 플렉스 박스
+  - flex-direction
+    - row
+      - 기본 값이며, 아이템을 행을 따라 가로 순서대로 왼쪽 부터 배치
+    - colum
+      - 아이템을 열을 따라 세로 순서대로 위쪽부터 배치
+    - row-reverse
+      - 아이템을 행의 역방향으로 오른쪽부터 배치
+    - colum-reverse
+      - 아이템을 열의 역방향으로 아래쪽부터 배치
+
+### styled-components
+
+- css 문법을 그대로 사용해 결과물을 스타일링 된 컴포넌트 형태로 만들어주는 오픈 소스 라이브러리
+
+```react
+const Wrapper = styled.div`padding: 1rem; background: grey;`
+const Title - styled.h1`font-size: 1.5rem; color: white; text-align`
+```
 
 ## 보강 1 (2024-06-11)
 

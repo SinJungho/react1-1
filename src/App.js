@@ -1,14 +1,10 @@
 import "./App.css";
-import SplitPane from "./14week/SplitPane";
-import Contact from "./14week/Contact";
-import Chat from "./14week/Chat";
-import ProfileCard from "./보강1/ProfileCard";
-import MainContext from "./보강1/MainContext";
+import MainPage from "./보강2/MainPage";
 
 function App() {
   return (
     <div>
-      <MainContext />
+      <MainPage />
     </div>
   );
 }
